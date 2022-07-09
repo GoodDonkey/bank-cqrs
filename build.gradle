@@ -1,22 +1,66 @@
-plugins {
-    id 'org.springframework.boot' version '2.7.1'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
+buildscript {
+    ext {
+        // 스프링 부트 버전을 변수로 선언한다.
+        springBootVersion = '2.7.1'
+    }
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // 하위 프로젝트에서 사용할 라이브러리들의 위치를 위해 클래스 패스를 정의한다.
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
-group = 'com.bank'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-repositories {
-    mavenCentral()
+allprojects {
+    // 하위 프로젝트들에서 적용될 빌드 스크립트의 버전을 정의한다.
+    group = 'com.bank'
+    version = '0.0.1-SNAPSHOT'
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+
+    sourceCompatibility = '11' // 자바 버전 명시
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    task initSrouceFolders {
+        // 서브 프로젝트에 기초 디렉토리가 없으면 만들어준다.
+        sourceSets*.java.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+        sourceSets*.resources.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+// 각 하위 프로젝트에서는 core 프로젝트를 컴파일한다.
+// : 는 root 프로젝트 기준으로 한단계 하위 프로젝트라는 뜻.
+project(':command') {
+    dependencies {
+        implementation project(':core')
+    }
+}
+
+project(':query') {
+    dependencies {
+        implementation project(':core')
+    }
 }
