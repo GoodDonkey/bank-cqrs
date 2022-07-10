@@ -1,0 +1,8 @@
+POST http://localhost:8080/holder
+Content-Type: application/json
+
+{
+  "holderName": "동기",
+  "phoneNumber": "01033334444",
+  "address": "사당로"
+}
