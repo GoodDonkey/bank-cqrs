@@ -6,3 +6,36 @@ Content-Type: application/json
   "phoneNumber": "01033334444",
   "address": "사당로"
 }
+
+###
+
+POST http://localhost:8080/account
+Content-Type: application/json
+
+{
+  "holderId": "holder 의 UUID"
+}
+
+###
+
+POST http://localhost:8080/deposit
+Content-Type: application/json
+
+{
+  "accountId": "계좌의 UUID",
+  "holderId": "holder 의 UUID",
+  "amount": "0",
+  "action": "deposit"
+}
+
+###
+
+POST http://localhost:8080/withdraw
+Content-Type: application/json
+
+{
+"accountId": "계좌의 UUID",
+"holderId": "holder 의 UUID",
+"amount": "0",
+"action": "withdrawal"
+}
