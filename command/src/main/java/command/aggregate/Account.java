@@ -12,6 +12,7 @@ import command.exception.NotEnoughBalanceException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -19,6 +20,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
+@Slf4j
 @Aggregate
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,11 +32,13 @@ public class Account {
     
     @CommandHandler
     public Account(CreateAccountCommand command) {
+        log.debug("handling {}", command);
         apply(new AccountCreated(command.getAccountId(), command.getHolderId()));
     }
     
     @EventSourcingHandler
     protected void on(AccountCreated event) {
+        log.debug("applying {}", event);
         this.accountId = event.getAccountId();
         this.holderId = event.getHolderId();
         this.balance = 0L;
@@ -42,17 +46,20 @@ public class Account {
     
     @CommandHandler
     protected void handle(DepositMoneyCommand command) {
+        log.debug("handling {}", command);
         if (command.getAmount() <= 0) throw new CannotDepositLessThanZeroException();
         apply(new MoneyDeposited(command.getAccountId(), command.getHolderId(), command.getAmount()));
     }
     
     @EventSourcingHandler
     protected void on(MoneyDeposited event) {
+        log.debug("applying {}", event);
         this.balance += event.getAmount();
     }
     
     @CommandHandler
     protected void handle(WithdrawMoneyCommand command) {
+        log.debug("handling {}", command);
         if (this.balance - command.getAmount() < 0) throw new NotEnoughBalanceException();
         if (command.getAmount() <= 0) throw new CannotWithdrawLessThanZeroException();
         apply(new MoneyWithdrawn(command.getAccountId(), command.getHolderId(), command.getAmount()));
@@ -60,6 +67,7 @@ public class Account {
     
     @EventSourcingHandler
     protected void on(MoneyWithdrawn event) {
+        log.debug("applying {}", event);
         this.balance -= event.getAmount();
     }
 }

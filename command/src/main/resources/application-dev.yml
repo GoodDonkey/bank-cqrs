@@ -21,3 +21,6 @@ axon:
     general: xstream
   axonserver:
     servers: localhost:8124
+
+logging.level.command: debug
+logging.level.org.axonframework: debug
