@@ -30,7 +30,7 @@ public class Account {
     
     @CommandHandler
     public Account(CreateAccountCommand command) {
-        apply(new AccountCreated(command.getHolderId(), command.getAccountId()));
+        apply(new AccountCreated(command.getAccountId(), command.getHolderId()));
     }
     
     @EventSourcingHandler
@@ -43,7 +43,7 @@ public class Account {
     @CommandHandler
     protected void handle(DepositMoneyCommand command) {
         if (command.getAmount() <= 0) throw new CannotDepositLessThanZeroException();
-        apply(new MoneyDeposited(command.getHolderId(), command.getAccountId(), command.getAmount()));
+        apply(new MoneyDeposited(command.getAccountId(), command.getHolderId(), command.getAmount()));
     }
     
     @EventSourcingHandler
@@ -55,7 +55,7 @@ public class Account {
     protected void handle(WithdrawMoneyCommand command) {
         if (this.balance - command.getAmount() < 0) throw new NotEnoughBalanceException();
         if (command.getAmount() <= 0) throw new CannotWithdrawLessThanZeroException();
-        apply(new MoneyWithdrawn(command.getHolderId(), command.getAccountId(), command.getAmount()));
+        apply(new MoneyWithdrawn(command.getAccountId(), command.getHolderId(), command.getAmount()));
     }
     
     @EventSourcingHandler

@@ -36,6 +36,10 @@ subprojects {
         }
     }
 
+    test {
+        useJUnitPlatform()
+    }
+
     task initSrouceFolders {
         // 서브 프로젝트에 기초 디렉토리가 없으면 만들어준다.
         sourceSets*.java.srcDirs*.each {
