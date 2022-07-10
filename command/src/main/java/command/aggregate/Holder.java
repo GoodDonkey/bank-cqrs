@@ -28,7 +28,7 @@ public class Holder {
     }
     
     @EventSourcingHandler
-    protected void createAccount(HolderCreated event) {
+    protected void on(HolderCreated event) {
         this.holderId = event.getHolderId();
         this.holderName = event.getHolderName();
         this.phoneNumber = event.getPhoneNumber();

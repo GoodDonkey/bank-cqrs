@@ -34,32 +34,32 @@ public class Account {
     }
     
     @EventSourcingHandler
-    protected void createAccount(AccountCreated event) {
+    protected void on(AccountCreated event) {
         this.accountId = event.getAccountId();
         this.holderId = event.getHolderId();
         this.balance = 0L;
     }
     
     @CommandHandler
-    protected void depositMoney(DepositMoneyCommand command) {
+    protected void handle(DepositMoneyCommand command) {
         if (command.getAmount() <= 0) throw new CannotDepositLessThanZeroException();
         apply(new MoneyDeposited(command.getHolderId(), command.getAccountId(), command.getAmount()));
     }
     
     @EventSourcingHandler
-    protected void depositMoney(MoneyDeposited event) {
+    protected void on(MoneyDeposited event) {
         this.balance += event.getAmount();
     }
     
     @CommandHandler
-    protected void depositMoney(WithdrawMoneyCommand command) {
+    protected void handle(WithdrawMoneyCommand command) {
         if (this.balance - command.getAmount() < 0) throw new NotEnoughBalanceException();
         if (command.getAmount() <= 0) throw new CannotWithdrawLessThanZeroException();
         apply(new MoneyWithdrawn(command.getHolderId(), command.getAccountId(), command.getAmount()));
     }
     
     @EventSourcingHandler
-    protected void withdrawMoney(MoneyWithdrawn event) {
+    protected void on(MoneyWithdrawn event) {
         this.balance -= event.getAmount();
     }
 }
