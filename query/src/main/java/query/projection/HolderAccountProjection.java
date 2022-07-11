@@ -1,5 +1,8 @@
 package query.projection;
 
+import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.AllowReplay;
+import org.axonframework.eventhandling.ResetHandler;
 import query.entity.HolderAccountSummary;
 import query.repository.HolderAccountJpaRepository;
 import com.bankcqrs.events.AccountCreated;
@@ -18,10 +21,12 @@ import java.util.NoSuchElementException;
 @Component
 @AllArgsConstructor
 @Slf4j
+@ProcessingGroup("accounts")
 public class HolderAccountProjection {
     private final HolderAccountJpaRepository repository;
     
     @EventHandler
+    @AllowReplay
     protected void on(HolderCreated event, @Timestamp Instant instant) {
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = HolderAccountSummary.builder().holderId(event.getHolderId())
@@ -32,6 +37,7 @@ public class HolderAccountProjection {
     }
     
     @EventHandler
+    @AllowReplay
     protected void on(AccountCreated event, @Timestamp Instant instant){
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
@@ -40,6 +46,7 @@ public class HolderAccountProjection {
     }
     
     @EventHandler
+    @AllowReplay
     protected void on(MoneyDeposited event, @Timestamp Instant instant){
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
@@ -48,11 +55,18 @@ public class HolderAccountProjection {
     }
     
     @EventHandler
+    @AllowReplay
     protected void on(MoneyWithdrawn event, @Timestamp Instant instant){
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
         accountSummary.setTotalBalance(accountSummary.getTotalBalance() - event.getAmount());
         repository.save(accountSummary);
+    }
+    
+    @ResetHandler
+    private void reset() {
+        log.debug("accounts reset triggered");
+        repository.deleteAll();
     }
     
     private HolderAccountSummary getHolderAccountSummary(String holderId) {
