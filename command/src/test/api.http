@@ -13,7 +13,7 @@ POST http://localhost:8080/account
 Content-Type: application/json
 
 {
-  "holderId": "e519695b-8cc0-4fa2-a8a9-8008dcebabf5"
+  "holderId": "007c9ec6-dba6-495f-a9fe-1a5cd1f95ee4"
 }
 
 ###
@@ -22,8 +22,8 @@ POST http://localhost:8080/deposit
 Content-Type: application/json
 
 {
-  "accountId": "ee9f3682-b174-4235-b52f-6e56eb88a7da",
-  "holderId": "e519695b-8cc0-4fa2-a8a9-8008dcebabf5",
+  "accountId": "f3e11081-3fb1-45b9-bcfb-a6fdce121610",
+  "holderId": "007c9ec6-dba6-495f-a9fe-1a5cd1f95ee4",
   "amount": "551222",
   "action": "deposit"
 }
@@ -34,8 +34,8 @@ POST http://localhost:8080/withdraw
 Content-Type: application/json
 
 {
-  "accountId": "ee9f3682-b174-4235-b52f-6e56eb88a7da",
-  "holderId": "e519695b-8cc0-4fa2-a8a9-8008dcebabf5",
-"amount": "323",
-"action": "withdrawal"
+  "accountId": "f3e11081-3fb1-45b9-bcfb-a6fdce121610",
+  "holderId": "007c9ec6-dba6-495f-a9fe-1a5cd1f95ee4",
+  "amount": "10000",
+  "action": "withdrawal"
 }

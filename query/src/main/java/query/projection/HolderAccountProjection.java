@@ -1,7 +1,7 @@
-package Query.projection;
+package query.projection;
 
-import Query.entity.HolderAccountSummary;
-import Query.repository.HolderAccountJpaRepository;
+import query.entity.HolderAccountSummary;
+import query.repository.HolderAccountJpaRepository;
 import com.bankcqrs.events.AccountCreated;
 import com.bankcqrs.events.HolderCreated;
 import com.bankcqrs.events.MoneyDeposited;
