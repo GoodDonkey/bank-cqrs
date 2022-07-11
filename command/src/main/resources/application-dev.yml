@@ -21,6 +21,7 @@ axon:
     general: jackson
   axonserver:
     servers: localhost:8124
+    snapshot-prefetch: 10
 
 logging.level.command: debug
 logging.level.org.axonframework: debug

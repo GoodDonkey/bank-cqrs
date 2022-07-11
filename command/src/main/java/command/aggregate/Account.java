@@ -11,6 +11,7 @@ import command.exception.CannotWithdrawLessThanZeroException;
 import command.exception.NotEnoughBalanceException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -21,9 +22,14 @@ import org.axonframework.spring.stereotype.Aggregate;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Slf4j
-@Aggregate
+@Aggregate(
+        snapshotTriggerDefinition = "accountSnapshotTriggerDefinition",
+        repository = "accountRepository",
+        snapshotFilter = "accountSnapshotFilter"
+)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Account {
     @AggregateIdentifier
     private String accountId;
@@ -55,6 +61,7 @@ public class Account {
     protected void on(MoneyDeposited event) {
         log.debug("applying {}", event);
         this.balance += event.getAmount();
+        log.debug("balance after deposit: {}", balance);
     }
     
     @CommandHandler
@@ -69,5 +76,6 @@ public class Account {
     protected void on(MoneyWithdrawn event) {
         log.debug("applying {}", event);
         this.balance -= event.getAmount();
+        log.debug("balance after withdraw: {}", balance);
     }
 }
