@@ -13,7 +13,7 @@ POST http://localhost:8080/account
 Content-Type: application/json
 
 {
-  "holderId": "holder 의 UUID"
+  "holderId": "68e740ff-17c2-4dba-91f5-b13b1d19df12"
 }
 
 ###
@@ -22,9 +22,9 @@ POST http://localhost:8080/deposit
 Content-Type: application/json
 
 {
-  "accountId": "계좌의 UUID",
-  "holderId": "holder 의 UUID",
-  "amount": "0",
+  "accountId": "620c44d3-50fd-4fd4-a771-f70dea570bab",
+  "holderId": "68e740ff-17c2-4dba-91f5-b13b1d19df12",
+  "amount": "12345080",
   "action": "deposit"
 }
 
@@ -34,8 +34,8 @@ POST http://localhost:8080/withdraw
 Content-Type: application/json
 
 {
-"accountId": "계좌의 UUID",
-"holderId": "holder 의 UUID",
-"amount": "0",
+  "accountId": "620c44d3-50fd-4fd4-a771-f70dea570bab",
+  "holderId": "68e740ff-17c2-4dba-91f5-b13b1d19df12",
+"amount": "323",
 "action": "withdrawal"
 }
