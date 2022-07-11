@@ -18,6 +18,10 @@ spring:
 
 axon:
   serializer:
-    general: xstream
+    general: jackson
   axonserver:
     servers: localhost:8124
+
+
+logging.level.Query: debug
+logging.level.org.axonframework: debug
