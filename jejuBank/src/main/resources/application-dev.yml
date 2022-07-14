@@ -1,0 +1,12 @@
+server:
+  port: 9091
+
+spring:
+  application:
+    name: eventsourcing-cqrs-jejuBank
+
+axon:
+  serializer:
+    general: jackson
+  axonserver:
+    servers: localhost:8124
