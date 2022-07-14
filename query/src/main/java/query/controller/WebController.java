@@ -10,4 +10,7 @@ public class WebController {
     public String p2pQueryView() {
         return "p2p.html";
     }
+    
+    @GetMapping("/subscription")
+    public void subscriptionQueryView() {};
 }
