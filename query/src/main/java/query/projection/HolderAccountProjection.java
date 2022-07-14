@@ -12,6 +12,7 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.eventhandling.Timestamp;
 import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Component;
 import query.entity.HolderAccountSummary;
 import query.query.AccountQuery;
@@ -26,6 +27,7 @@ import java.util.NoSuchElementException;
 @ProcessingGroup("accounts")
 public class HolderAccountProjection {
     private final HolderAccountJpaRepository repository;
+    private final QueryUpdateEmitter queryUpdateEmitter;
     
     @EventHandler
     @AllowReplay
@@ -53,6 +55,10 @@ public class HolderAccountProjection {
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
         accountSummary.setTotalBalance(accountSummary.getTotalBalance() + event.getAmount());
+        
+        queryUpdateEmitter.emit(AccountQuery.class,
+                                query -> query.getHolderId().equals(event.getHolderId()),
+                                accountSummary);
         repository.save(accountSummary);
     }
     
@@ -62,6 +68,10 @@ public class HolderAccountProjection {
         log.debug("projecting event {}, timestamp: {}", event, instant.toString());
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
         accountSummary.setTotalBalance(accountSummary.getTotalBalance() - event.getAmount());
+        
+        queryUpdateEmitter.emit(AccountQuery.class,
+                                query -> query.getHolderId().equals(event.getHolderId()),
+                                accountSummary);
         repository.save(accountSummary);
     }
     
