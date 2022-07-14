@@ -12,5 +12,8 @@ public class WebController {
     }
     
     @GetMapping("/subscription")
-    public void subscriptionQueryView() {};
+    public void subscriptionQueryView(){}
+    
+    @GetMapping("/scatter-gather")
+    public void scatterGatherQueryView(){}
 }
