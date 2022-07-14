@@ -27,4 +27,4 @@ logging:
   level:
     query: debug
     org:
-#      axonframework: debug
+      axonframework: debug
