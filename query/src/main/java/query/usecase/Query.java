@@ -1,6 +1,7 @@
 package query.usecase;
 
 import query.entity.HolderAccountSummary;
+import reactor.core.publisher.Flux;
 
 public abstract class Query {
     
@@ -10,5 +11,9 @@ public abstract class Query {
     
     public interface GetAccountInfo {
         HolderAccountSummary getAccountInfo(String holderId);
+    }
+    
+    public interface GetAccountInfoSubscription {
+        Flux<HolderAccountSummary> getAccountInfoSubscription(String holderId);
     }
 }
