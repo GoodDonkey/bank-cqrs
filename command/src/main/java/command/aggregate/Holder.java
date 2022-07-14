@@ -27,7 +27,7 @@ public class Holder {
     @CommandHandler
     public Holder(CreateHolderCommand command) {
         log.debug("handling {}", command);
-        apply(new HolderCreated(command.getHolderId(), command.getHolderName(), command.getPhoneNumber(), command.getAddress()));
+        apply(new HolderCreated(command.getHolderId(), command.getHolderName(), command.getPhoneNumber(), command.getAddress(), command.getCompany()));
     }
     
     @EventSourcingHandler

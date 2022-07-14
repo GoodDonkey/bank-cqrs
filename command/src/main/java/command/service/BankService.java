@@ -27,7 +27,8 @@ public class BankService implements Bank.CreateHolder, Bank.CreateAccount, Bank.
         return commandGateway.send(new CreateHolderCommand(UUID.randomUUID().toString(),
                                                            dto.getHolderName(),
                                                            dto.getPhoneNumber(),
-                                                           dto.getAddress()));
+                                                           dto.getAddress(),
+                                                           dto.getCompany()));
     }
     
     @Override

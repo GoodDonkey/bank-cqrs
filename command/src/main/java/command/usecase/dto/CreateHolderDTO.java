@@ -19,4 +19,7 @@ public class CreateHolderDTO {
     
     @NotBlank
     private String address;
+    
+    @NotBlank
+    private String company;
 }
