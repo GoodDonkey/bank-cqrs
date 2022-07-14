@@ -68,3 +68,15 @@ project(':query') {
         implementation project(':core')
     }
 }
+
+project(':jejuBank') {
+    dependencies {
+        implementation project(':core')
+    }
+}
+
+project(':seoulBank') {
+    dependencies {
+        implementation project(':core')
+    }
+}
