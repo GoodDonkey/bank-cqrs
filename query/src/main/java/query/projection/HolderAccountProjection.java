@@ -1,19 +1,19 @@
 package query.projection;
 
-import org.axonframework.config.ProcessingGroup;
-import org.axonframework.eventhandling.AllowReplay;
-import org.axonframework.eventhandling.ResetHandler;
-import query.entity.HolderAccountSummary;
-import query.repository.HolderAccountJpaRepository;
 import com.bankcqrs.events.AccountCreated;
 import com.bankcqrs.events.HolderCreated;
 import com.bankcqrs.events.MoneyDeposited;
 import com.bankcqrs.events.MoneyWithdrawn;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.AllowReplay;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.eventhandling.Timestamp;
 import org.springframework.stereotype.Component;
+import query.entity.HolderAccountSummary;
+import query.repository.HolderAccountJpaRepository;
 
 import java.time.Instant;
 import java.util.NoSuchElementException;
