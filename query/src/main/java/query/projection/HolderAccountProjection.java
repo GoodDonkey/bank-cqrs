@@ -11,8 +11,10 @@ import org.axonframework.eventhandling.AllowReplay;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.eventhandling.Timestamp;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 import query.entity.HolderAccountSummary;
+import query.query.AccountQuery;
 import query.repository.HolderAccountJpaRepository;
 
 import java.time.Instant;
@@ -61,6 +63,13 @@ public class HolderAccountProjection {
         HolderAccountSummary accountSummary = getHolderAccountSummary(event.getHolderId());
         accountSummary.setTotalBalance(accountSummary.getTotalBalance() - event.getAmount());
         repository.save(accountSummary);
+    }
+    
+    @QueryHandler
+    public HolderAccountSummary on(AccountQuery query) {
+        log.debug("query={}", query);
+        return repository.findByHolderId(query.getHolderId())
+                .orElse(null);
     }
     
     @ResetHandler
